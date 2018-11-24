@@ -21,10 +21,17 @@ def get_direct_link(page_link):
 def send_direct_link(bot, update):
     page_link = update.message.text
     time.sleep(3)
-    try:
-        message = get_direct_link(page_link)
-    except Exception as e:
-        message = str(e)
+
+    if 'instagram' in page_link:
+        try:
+            message = get_direct_link(page_link)
+        except Exception as e:
+            print("{}: {} @ {}".format(type(e).__name__, e, page_link))
+            message = "Something is off either with your link, or my code. I'll look into this."
+    else:
+        print("Some nonsense:", page_link)
+        message = "This is not an instagram link that you are requesting."
+
     update.message.reply_text(message, disable_web_page_preview=True)
 
 
