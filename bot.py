@@ -34,10 +34,10 @@ def find_previous_pid(prefix):
 
 
 def get_direct_link(page_link):
-    return re.findall(r'{"src":"(.*?)","', str(requests.get(page_link).content))[-1]
+    return re.findall(r'{"src":"(.*?)","', str(requests.get(page_link).content))[-1].rsplit('\\')[0]
 
 
-def send_direct_link(bot, update):
+def send_direct_link(update, context):
     page_link = update.message.text
     time.sleep(3)
 
@@ -55,7 +55,7 @@ def send_direct_link(bot, update):
 
 
 def main():
-    updater = Updater(TOKEN)
+    updater = Updater(token=TOKEN, use_context=True)
     updater.dispatcher.add_handler(MessageHandler(filters=Filters.text, callback=send_direct_link))
     updater.start_polling()
     updater.idle()
