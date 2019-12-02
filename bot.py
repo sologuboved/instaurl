@@ -34,7 +34,7 @@ def find_previous_pid(prefix):
 
 
 def get_direct_link(page_link):
-    return re.findall(r'{"src":"(.*?)","', str(requests.get(page_link).content))[-1].rsplit('\\')[0]
+    return re.findall(r'{"src":"(.*?)","', str(requests.get(page_link).content))[-1].replace('\\\\u0026', '&')
 
 
 def send_direct_link(update, context):
@@ -62,5 +62,6 @@ def main():
 
 
 if __name__ == '__main__':
+    # print(get_direct_link('https://www.instagram.com/p/B4VHea_I7bR/'))
     write_pid()
     main()
